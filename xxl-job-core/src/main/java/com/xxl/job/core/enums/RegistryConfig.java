@@ -5,8 +5,8 @@ package com.xxl.job.core.enums;
  */
 public class RegistryConfig {
 
-    public static final int BEAT_TIMEOUT = 30;
-    public static final int DEAD_TIMEOUT = BEAT_TIMEOUT * 3;
+    public static final int BEAT_TIMEOUT = 30;                      // 心跳超时
+    public static final int DEAD_TIMEOUT = BEAT_TIMEOUT * 3;        // 死亡
 
     public enum RegistType{ EXECUTOR, ADMIN }
 

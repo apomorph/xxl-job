@@ -62,7 +62,7 @@ public class XxlJobTrigger {
 
         // cover addressList
         if (addressList!=null && addressList.trim().length()>0) {
-            group.setAddressType(1);
+            group.setAddressType(1);                    // 手动录入
             group.setAddressList(addressList.trim());
         }
 
@@ -110,7 +110,7 @@ public class XxlJobTrigger {
      */
     private static void processTrigger(XxlJobGroup group, XxlJobInfo jobInfo, int finalFailRetryCount, TriggerTypeEnum triggerType, int index, int total){
 
-        // param
+        // param 阻塞处理策略 默认是串行
         ExecutorBlockStrategyEnum blockStrategy = ExecutorBlockStrategyEnum.match(jobInfo.getExecutorBlockStrategy(), ExecutorBlockStrategyEnum.SERIAL_EXECUTION);  // block strategy
         ExecutorRouteStrategyEnum executorRouteStrategyEnum = ExecutorRouteStrategyEnum.match(jobInfo.getExecutorRouteStrategy(), null);    // route strategy
         String shardingParam = (ExecutorRouteStrategyEnum.SHARDING_BROADCAST==executorRouteStrategyEnum)?String.valueOf(index).concat("/").concat(String.valueOf(total)):null;
@@ -199,6 +199,7 @@ public class XxlJobTrigger {
     }
 
     /**
+     * 运行执行器
      * run executor
      * @param triggerParam
      * @param address

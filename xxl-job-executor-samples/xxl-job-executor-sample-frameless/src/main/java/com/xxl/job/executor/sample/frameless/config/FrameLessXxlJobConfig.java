@@ -13,7 +13,7 @@ import java.util.Properties;
 /**
  * @author xuxueli 2018-10-31 19:05:43
  */
-public class FrameLessXxlJobConfig {
+public class  FrameLessXxlJobConfig {
     private static Logger logger = LoggerFactory.getLogger(FrameLessXxlJobConfig.class);
 
 

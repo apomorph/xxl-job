@@ -10,6 +10,9 @@ import com.xxl.job.core.biz.model.TriggerParam;
 import java.util.List;
 
 /**
+ * 故障转移
+ *      这个故障转移每次都是按照address的顺序开始选择
+ *
  * Created by xuxueli on 17/3/10.
  */
 public class ExecutorRouteFailover extends ExecutorRouter {

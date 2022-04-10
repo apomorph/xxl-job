@@ -7,6 +7,7 @@ import com.xxl.job.core.biz.model.TriggerParam;
 import java.util.List;
 
 /**
+ * 路由到最后一个地址
  * Created by xuxueli on 17/3/10.
  */
 public class ExecutorRouteLast extends ExecutorRouter {

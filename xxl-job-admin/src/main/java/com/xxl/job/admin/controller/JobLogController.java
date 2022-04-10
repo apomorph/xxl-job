@@ -47,6 +47,13 @@ public class JobLogController {
 	@Resource
 	public XxlJobLogDao xxlJobLogDao;
 
+	/**
+	 * 调度日志页面
+	 * @param request
+	 * @param model
+	 * @param jobId
+	 * @return
+	 */
 	@RequestMapping
 	public String index(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue = "0") Integer jobId) {
 
@@ -77,13 +84,29 @@ public class JobLogController {
 		return "joblog/joblog.index";
 	}
 
+	/**
+	 * 根据执行器id查所有任务
+	 * @param jobGroup
+	 * @return
+	 */
 	@RequestMapping("/getJobsByGroup")
 	@ResponseBody
 	public ReturnT<List<XxlJobInfo>> getJobsByGroup(int jobGroup){
 		List<XxlJobInfo> list = xxlJobInfoDao.getJobsByGroup(jobGroup);
 		return new ReturnT<List<XxlJobInfo>>(list);
 	}
-	
+
+	/**
+	 * 调度日志
+	 * @param request
+	 * @param start
+	 * @param length
+	 * @param jobGroup
+	 * @param jobId
+	 * @param logStatus
+	 * @param filterTime
+	 * @return
+	 */
 	@RequestMapping("/pageList")
 	@ResponseBody
 	public Map<String, Object> pageList(HttpServletRequest request,
@@ -117,6 +140,12 @@ public class JobLogController {
 		return maps;
 	}
 
+	/**
+	 * 调度日志详情
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/logDetailPage")
 	public String logDetailPage(int id, Model model){
 
@@ -135,6 +164,14 @@ public class JobLogController {
 		return "joblog/joblog.detail";
 	}
 
+	/**
+	 * todo
+	 * @param executorAddress
+	 * @param triggerTime
+	 * @param logId
+	 * @param fromLineNum
+	 * @return
+	 */
 	@RequestMapping("/logDetailCat")
 	@ResponseBody
 	public ReturnT<LogResult> logDetailCat(String executorAddress, long triggerTime, long logId, int fromLineNum){
@@ -157,6 +194,11 @@ public class JobLogController {
 		}
 	}
 
+	/**
+	 * todo
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/logKill")
 	@ResponseBody
 	public ReturnT<String> logKill(int id){
@@ -191,6 +233,13 @@ public class JobLogController {
 		}
 	}
 
+	/**
+	 * 清理调度日志
+	 * @param jobGroup
+	 * @param jobId
+	 * @param type
+	 * @return
+	 */
 	@RequestMapping("/clearLog")
 	@ResponseBody
 	public ReturnT<String> clearLog(int jobGroup, int jobId, int type){

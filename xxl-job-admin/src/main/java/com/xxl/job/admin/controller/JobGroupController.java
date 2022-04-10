@@ -38,6 +38,15 @@ public class JobGroupController {
 		return "jobgroup/jobgroup.index";
 	}
 
+	/**
+	 * 执行器列表
+	 * @param request
+	 * @param start
+	 * @param length
+	 * @param appname
+	 * @param title
+	 * @return
+	 */
 	@RequestMapping("/pageList")
 	@ResponseBody
 	public Map<String, Object> pageList(HttpServletRequest request,
@@ -57,6 +66,11 @@ public class JobGroupController {
 		return maps;
 	}
 
+	/**
+	 * 新增执行器
+	 * @param xxlJobGroup
+	 * @return
+	 */
 	@RequestMapping("/save")
 	@ResponseBody
 	public ReturnT<String> save(XxlJobGroup xxlJobGroup){
@@ -100,6 +114,11 @@ public class JobGroupController {
 		return (ret>0)?ReturnT.SUCCESS:ReturnT.FAIL;
 	}
 
+	/**
+	 * 更新执行器
+	 * @param xxlJobGroup
+	 * @return
+	 */
 	@RequestMapping("/update")
 	@ResponseBody
 	public ReturnT<String> update(XxlJobGroup xxlJobGroup){
@@ -168,6 +187,13 @@ public class JobGroupController {
 		return appAddressMap.get(appnameParam);
 	}
 
+	/**
+	 * 删除执行器
+	 * 		当前执行器下有关联任务时 无法删除
+	 * 		只剩最后一个执行器时 这个执行器无法删除   应该是一些线程池的问题
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/remove")
 	@ResponseBody
 	public ReturnT<String> remove(int id){
@@ -187,6 +213,11 @@ public class JobGroupController {
 		return (ret>0)?ReturnT.SUCCESS:ReturnT.FAIL;
 	}
 
+	/**
+	 * 获取任务/执行器的注册节点
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/loadById")
 	@ResponseBody
 	public ReturnT<XxlJobGroup> loadById(int id){

@@ -14,12 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 告警器
+ */
 @Component
 public class JobAlarmer implements ApplicationContextAware, InitializingBean {
     private static Logger logger = LoggerFactory.getLogger(JobAlarmer.class);
 
     private ApplicationContext applicationContext;
-    private List<JobAlarm> jobAlarmList;
+    private List<JobAlarm> jobAlarmList;                // 告警service 默认只有email实现
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

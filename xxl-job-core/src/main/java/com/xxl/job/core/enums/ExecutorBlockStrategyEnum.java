@@ -1,6 +1,7 @@
 package com.xxl.job.core.enums;
 
 /**
+ * 阻塞处理策略
  * Created by xuxueli on 17/5/9.
  */
 public enum ExecutorBlockStrategyEnum {

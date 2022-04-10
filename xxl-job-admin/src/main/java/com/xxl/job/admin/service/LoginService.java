@@ -36,10 +36,10 @@ public class LoginService {
         if (tokenHex != null) {
             String tokenJson = new String(new BigInteger(tokenHex, 16).toByteArray());      // username_password(md5)
             xxlJobUser = JacksonUtil.readValue(tokenJson, XxlJobUser.class);
+            // {"id":1,"username":"admin","password":"e10adc3949ba59abbe56e057f20f883e","role":1,"permission":null}
         }
         return xxlJobUser;
     }
-
 
     public ReturnT<String> login(HttpServletRequest request, HttpServletResponse response, String username, String password, boolean ifRemember){
 

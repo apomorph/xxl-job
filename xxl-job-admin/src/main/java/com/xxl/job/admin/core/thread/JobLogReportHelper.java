@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 任务日志报告帮助类
  * job log report helper
  *
  * @author xuxueli 2019-11-22

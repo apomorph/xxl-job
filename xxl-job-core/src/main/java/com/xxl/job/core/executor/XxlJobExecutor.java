@@ -173,6 +173,7 @@ public class XxlJobExecutor  {
 
 
     // ---------------------- job handler repository ----------------------
+    // jobHandlerName -> jobHandler实例 的映射
     private static ConcurrentMap<String, IJobHandler> jobHandlerRepository = new ConcurrentHashMap<String, IJobHandler>();
     public static IJobHandler loadJobHandler(String name){
         return jobHandlerRepository.get(name);

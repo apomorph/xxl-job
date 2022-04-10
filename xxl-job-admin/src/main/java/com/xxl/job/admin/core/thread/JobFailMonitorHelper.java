@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 任务失败监控帮助类
  * job monitor instance
  *
  * @author xuxueli 2015-9-1 18:05:56
@@ -42,7 +43,7 @@ public class JobFailMonitorHelper {
 						if (failLogIds!=null && !failLogIds.isEmpty()) {
 							for (long failLogId: failLogIds) {
 
-								// lock log
+								// lock log		失败且告警状态是0(默认)的日志 将其告警状态更新为-1
 								int lockRet = XxlJobAdminConfig.getAdminConfig().getXxlJobLogDao().updateAlarmStatus(failLogId, 0, -1);
 								if (lockRet < 1) {
 									continue;
@@ -78,7 +79,7 @@ public class JobFailMonitorHelper {
 					}
 
                     try {
-                        TimeUnit.SECONDS.sleep(10);
+                        TimeUnit.SECONDS.sleep(10);		// 每10s检查一次任务失败日志 并进行重试、告警等操作
                     } catch (Exception e) {
                         if (!toStop) {
                             logger.error(e.getMessage(), e);

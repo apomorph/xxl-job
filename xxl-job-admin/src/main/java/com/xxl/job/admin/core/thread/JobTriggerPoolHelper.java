@@ -10,6 +10,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 任务触发器线程池帮助类
  * job trigger thread pool helper
  *
  * @author xuxueli 2018-07-03 21:08:07
@@ -63,10 +64,12 @@ public class JobTriggerPoolHelper {
 
     // job timeout count
     private volatile long minTim = System.currentTimeMillis()/60000;     // ms > min
+    // jobId -> 超时次数 的映射   任务执行超过500ms就认为是超时了
     private volatile ConcurrentMap<Integer, AtomicInteger> jobTimeoutCountMap = new ConcurrentHashMap<>();
 
 
     /**
+     * 添加触发器
      * add trigger
      */
     public void addTrigger(final int jobId,
@@ -80,7 +83,7 @@ public class JobTriggerPoolHelper {
         ThreadPoolExecutor triggerPool_ = fastTriggerPool;
         AtomicInteger jobTimeoutCount = jobTimeoutCountMap.get(jobId);
         if (jobTimeoutCount!=null && jobTimeoutCount.get() > 10) {      // job-timeout 10 times in 1 min
-            triggerPool_ = slowTriggerPool;
+            triggerPool_ = slowTriggerPool; // 如果一分钟内 任务超时次数超出10次 则使用慢线程池执行
         }
 
         // trigger

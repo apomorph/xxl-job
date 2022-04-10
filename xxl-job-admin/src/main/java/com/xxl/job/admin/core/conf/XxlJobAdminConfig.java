@@ -84,7 +84,7 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
     @Resource
     private DataSource dataSource;
     @Resource
-    private JobAlarmer jobAlarmer;
+    private JobAlarmer jobAlarmer;                      // 告警器
 
 
     public String getI18n() {

@@ -5,6 +5,7 @@ import com.xxl.job.core.handler.IJobHandler;
 import java.lang.reflect.Method;
 
 /**
+ * 基于方法的任务处理器
  * @author xuxueli 2019-12-11 21:12:18
  */
 public class MethodJobHandler extends IJobHandler {

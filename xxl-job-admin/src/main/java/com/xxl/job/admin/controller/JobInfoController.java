@@ -45,7 +45,14 @@ public class JobInfoController {
 	private XxlJobGroupDao xxlJobGroupDao;
 	@Resource
 	private XxlJobService xxlJobService;
-	
+
+	/**
+	 * 任务管理页面
+	 * @param request
+	 * @param model
+	 * @param jobGroup
+	 * @return
+	 */
 	@RequestMapping
 	public String index(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue = "-1") int jobGroup) {
 
@@ -65,7 +72,7 @@ public class JobInfoController {
 			throw new XxlJobException(I18nUtil.getString("jobgroup_empty"));
 		}
 
-		model.addAttribute("JobGroupList", jobGroupList);
+		model.addAttribute("JobGroupList", jobGroupList);	// 有权限的执行器列表
 		model.addAttribute("jobGroup", jobGroup);
 
 		return "jobinfo/jobinfo.index";
@@ -80,6 +87,7 @@ public class JobInfoController {
 			} else {
 				List<String> groupIdStrs = new ArrayList<>();
 				if (loginUser.getPermission()!=null && loginUser.getPermission().trim().length()>0) {
+					// 用户权限信息保存的就是拥有权限的执行器id集合
 					groupIdStrs = Arrays.asList(loginUser.getPermission().trim().split(","));
 				}
 				for (XxlJobGroup groupItem:jobGroupList_all) {
@@ -97,7 +105,18 @@ public class JobInfoController {
 			throw new RuntimeException(I18nUtil.getString("system_permission_limit") + "[username="+ loginUser.getUsername() +"]");
 		}
 	}
-	
+
+	/**
+	 * 条件查询任务列表
+	 * @param start
+	 * @param length
+	 * @param jobGroup
+	 * @param triggerStatus
+	 * @param jobDesc
+	 * @param executorHandler
+	 * @param author
+	 * @return
+	 */
 	@RequestMapping("/pageList")
 	@ResponseBody
 	public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,  
@@ -106,37 +125,69 @@ public class JobInfoController {
 		
 		return xxlJobService.pageList(start, length, jobGroup, triggerStatus, jobDesc, executorHandler, author);
 	}
-	
+
+	/**
+	 * 新增任务
+	 * @param jobInfo
+	 * @return
+	 */
 	@RequestMapping("/add")
 	@ResponseBody
 	public ReturnT<String> add(XxlJobInfo jobInfo) {
 		return xxlJobService.add(jobInfo);
 	}
-	
+
+	/**
+	 * 更新任务
+	 * @param jobInfo
+	 * @return
+	 */
 	@RequestMapping("/update")
 	@ResponseBody
 	public ReturnT<String> update(XxlJobInfo jobInfo) {
 		return xxlJobService.update(jobInfo);
 	}
-	
+
+	/**
+	 * 删除任务
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/remove")
 	@ResponseBody
 	public ReturnT<String> remove(int id) {
 		return xxlJobService.remove(id);
 	}
-	
+
+	/**
+	 * 停止任务
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/stop")
 	@ResponseBody
 	public ReturnT<String> pause(int id) {
 		return xxlJobService.stop(id);
 	}
-	
+
+	/**
+	 * 启动任务
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/start")
 	@ResponseBody
 	public ReturnT<String> start(int id) {
 		return xxlJobService.start(id);
 	}
-	
+
+	/**
+	 * 手动执行一次任务
+	 * @param id				任务id
+	 * @param executorParam		任务参数
+	 * @param addressList		执行器地址
+	 * @return
+	 */
 	@RequestMapping("/trigger")
 	@ResponseBody
 	//@PermissionLimit(limit = false)
@@ -150,6 +201,12 @@ public class JobInfoController {
 		return ReturnT.SUCCESS;
 	}
 
+	/**
+	 * 下次执行时间
+	 * @param scheduleType
+	 * @param scheduleConf
+	 * @return
+	 */
 	@RequestMapping("/nextTriggerTime")
 	@ResponseBody
 	public ReturnT<List<String>> nextTriggerTime(String scheduleType, String scheduleConf) {

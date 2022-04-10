@@ -1,0 +1,79 @@
+xxl_job_group	执行器表
+	id
+	app_name		执行器AppName
+	title			执行器名称
+	address_type	执行器地址类型：0=自动注册、1=手动录入  【自动注册类型会查xxl_job_registry注册表】
+	address_list 	执行器地址列表，多地址逗号分隔		// 如果是自动注册类型的执行器，该值取自xxl_job_registry表对应执行器的registry_value
+	update_time
+
+
+
+
+xxl_job_registry	注册表
+	id
+	registry_group		注册类型: EXECUTOR ADMIN
+	registry_key		如果注册类型是执行器 则key为执行器名称 对应的xxl_job_group表的app_name 
+	registry_value		如果注册类型是执行器 则value为执行器地址
+	update_time
+
+
+xxl_job_info		任务表
+  id
+  job_group			执行器主键ID
+  job_desc			任务描述
+  add_time	
+  update_time
+  author			作者
+  alarm_email		报警邮件
+  schedule_type		调度类型
+  schedule_conf		调度配置，值含义取决于调度类型
+  misfire_strategy	调度过期策略
+  executor_route_strategy		执行器路由策略
+  executor_handler				执行器任务handler
+  executor_param				执行器任务参数
+  executor_block_strategy		阻塞处理策略
+  executor_timeout				任务执行超时时间，单位秒
+  executor_fail_retry_count		失败重试次数
+  glue_type						GLUE类型
+  glue_source					GLUE源代码
+  glue_remark					GLUE备注
+  glue_updatetime				GLUE更新时间
+  child_jobid					子任务ID，多个逗号分隔
+  trigger_status				调度状态：0-停止，1-运行
+  trigger_last_time				上次调度时间
+  trigger_next_time				下次调度时间
+
+
+
+
+xxl_job_log			任务执行日志
+	id
+	job_group					执行器主键ID
+	job_id						任务，主键ID
+	executor_address			执行器地址，本次执行的地址
+	executor_handler			执行器任务handler
+	executor_param				执行器任务参数
+	executor_sharding_param		执行器任务分片参数，格式如 1/2
+	executor_fail_retry_count	失败重试次数
+	trigger_time				调度-时间
+	trigger_code				调度-结果	
+									0 
+									200
+	trigger_msg					调度-日志
+	handle_time					执行-时间
+	handle_code					执行-状态	
+									0 			【处理状态为0且trigger_code为0或200表示任务正在执行】
+									200	成功   【任务执行成功】
+									500 失败
+	handle_msg					执行-日志
+	alarm_status				告警状态：0-默认、1-无需告警、2-告警成功、3-告警失败
+								【无需告警: 任务执行失败，但是任务信息已经删除了，此时就无需告警】
+
+
+xxl_job_log_report
+  id
+  trigger_day		调度-时间
+  running_count		运行中-日志数量
+  suc_count			执行成功-日志数量
+  fail_count		执行失败-日志数量
+  update_time

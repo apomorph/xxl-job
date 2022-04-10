@@ -372,10 +372,10 @@ public class XxlJobServiceImpl implements XxlJobService {
 		int executorCount = executorAddressSet.size();
 
 		Map<String, Object> dashboardMap = new HashMap<String, Object>();
-		dashboardMap.put("jobInfoCount", jobInfoCount);
-		dashboardMap.put("jobLogCount", jobLogCount);
-		dashboardMap.put("jobLogSuccessCount", jobLogSuccessCount);
-		dashboardMap.put("executorCount", executorCount);
+		dashboardMap.put("jobInfoCount", jobInfoCount);					// 任务数量
+		dashboardMap.put("jobLogCount", jobLogCount);					// 调度总数
+		dashboardMap.put("jobLogSuccessCount", jobLogSuccessCount);		// 调度成功数
+		dashboardMap.put("executorCount", executorCount);				// 执行器总数
 		return dashboardMap;
 	}
 

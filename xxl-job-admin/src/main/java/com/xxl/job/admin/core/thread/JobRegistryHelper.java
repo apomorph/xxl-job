@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
+ * 任务注册表帮助类
  * job registry instance
  * @author xuxueli 2016-10-02 19:10:24
  */
@@ -47,7 +48,7 @@ public class JobRegistryHelper {
 				new RejectedExecutionHandler() {
 					@Override
 					public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-						r.run();
+						r.run();	// 调用者线程运行
 						logger.warn(">>>>>>>>>>> xxl-job, registry or remove too fast, match threadpool rejected handler(run now).");
 					}
 				});
@@ -58,18 +59,18 @@ public class JobRegistryHelper {
 			public void run() {
 				while (!toStop) {
 					try {
-						// auto registry group
+						// auto registry group   查找自动注册类型的执行器
 						List<XxlJobGroup> groupList = XxlJobAdminConfig.getAdminConfig().getXxlJobGroupDao().findByAddressType(0);
 						if (groupList!=null && !groupList.isEmpty()) {
 
-							// remove dead address (admin/executor)
+							// remove dead address (admin/executor)		删除超时的执行器
 							List<Integer> ids = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().findDead(RegistryConfig.DEAD_TIMEOUT, new Date());
 							if (ids!=null && ids.size()>0) {
 								XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().removeDead(ids);
 							}
 
 							// fresh online address (admin/executor)
-							HashMap<String, List<String>> appAddressMap = new HashMap<String, List<String>>();
+							HashMap<String, List<String>> appAddressMap = new HashMap<String, List<String>>();	// 执行器名称 -> 地址列表
 							List<XxlJobRegistry> list = XxlJobAdminConfig.getAdminConfig().getXxlJobRegistryDao().findAll(RegistryConfig.DEAD_TIMEOUT, new Date());
 							if (list != null) {
 								for (XxlJobRegistry item: list) {
@@ -113,7 +114,7 @@ public class JobRegistryHelper {
 						}
 					}
 					try {
-						TimeUnit.SECONDS.sleep(RegistryConfig.BEAT_TIMEOUT);
+						TimeUnit.SECONDS.sleep(RegistryConfig.BEAT_TIMEOUT);		// 每30s注册一次
 					} catch (InterruptedException e) {
 						if (!toStop) {
 							logger.error(">>>>>>>>>>> xxl-job, job registry monitor thread error:{}", e);
